@@ -1,0 +1,2 @@
+fly launch -> create new app
+fly deploy -> deploy into old app

@@ -1,0 +1,14 @@
+We will go one by one. But all the should use compound component design patterns to build. Also if data size is big depend on api to filter, search, pagination, virtual scrolling etc. if small then its not a problem
+
+Step 1 - Create normal grid
+Step 2 - Inject Resizable Columns
+Step 3 - Inject Sortable, Filterable columns
+Step 4 - Inject Editable columns
+Step 5 - Inject Pagination and Virtual Scrolling
+Step 6 - Inject Toolbar and Export csv
+Step 7 - Inject Aggregation, Custom values (like buttons or custom components)
+Step 8 - Inject Keyboard Navigation, Undo/Redo, Copy-Paste, Selection
+
+All this should get activated if use need only (i.e.) if they inject then this functionalities should work else don't
+
+Don't worry about message length. You don't need to give all these in single message. you can give me this code in multiple messages but the performance of the grid should be perfectly optimized

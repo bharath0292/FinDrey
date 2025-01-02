@@ -1,0 +1,15 @@
+in transaction search add amount also go
+in edit query params not working
+account number remove rEQUIRED FIELD NEXT
+roundoff amount go
+add calendar based search in next
+combine row for account types
+search in input dropdown show correctly
+
+push to git
+create power bi dashboard
+optimize all the components
+deploy
+ui changes
+optimize go code
+use goriutine

@@ -1,0 +1,102 @@
+.container {
+  position: relative;
+  display: inline-block;
+  width: 45%;
+  user-select: none;
+}
+
+.container label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.container input {
+  width: 100%;
+  padding: 30px;
+  font-size: 14px;
+  border: 2px solid var(--bgSofter);
+  border-radius: 4px;
+  background-color: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.container input:focus {
+  border-color: #fff;
+}
+
+.container input:disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+  color: #6c757d;
+}
+
+.container ul {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--bg);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.container ul li {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.container ul li:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.container ul li:active {
+  background-color: #0056b3;
+}
+
+.container input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* .container.info input {
+  border-color: #17a2b8;
+} */
+
+.container.error input {
+  border-color: #dc3545;
+}
+
+.container.warning input {
+  border-color: #ffc107;
+}
+
+.container ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.container ul::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.container ul::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
