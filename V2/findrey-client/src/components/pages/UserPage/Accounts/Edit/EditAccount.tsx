@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { UpdateAccountsArgsType } from '@findrey/lib/accounts';
-import { useAccountActions } from '@findrey/components/pages/UserPage/Accounts/hooks/useAccountActions.hook';
-import useAccountsPageContext from '@findrey/components/pages/UserPage/Accounts/hooks/useAccounts.hook';
 import { getValue } from '@findrey/utils/accounts';
+
+import { useAccountActions } from '../hooks/useAccountActions.hook';
+import useAccountsPageContext from '../hooks/useAccounts.hook';
 
 import styles from './editAccount.module.css';
 

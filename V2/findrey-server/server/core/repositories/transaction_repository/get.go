@@ -2,6 +2,7 @@ package transaction_repository
 
 import (
 	"context"
+	"strconv"
 
 	adapters "github.com/bharath0292/findrey-server/server/core/adapters"
 	entity "github.com/bharath0292/findrey-server/server/core/entities/transaction_entity"
@@ -14,14 +15,16 @@ import (
 
 var transactionsCollection string = mongo_enums.Transactions.String()
 
-func GetAllTransactions() ([]entity.Transaction, int64, error) {
+func GetAllTransactions(userId primitive.ObjectID) ([]entity.Transaction, int64, error) {
 
 	var mongoClient, database = adapters.GetMongoClient()
-	totalCount, err := mongoClient.Database(database).Collection(mongo_enums.Transactions.String()).CountDocuments(context.TODO(), bson.D{{}})
+
+	filter := bson.M{"userId": userId}
+	totalCount, err := mongoClient.Database(database).Collection(mongo_enums.Transactions.String()).CountDocuments(context.TODO(), filter)
 	if err != nil {
 		return nil, 0, err
 	}
-	cursor, err := mongoClient.Database(database).Collection(transactionsCollection).Find(context.TODO(), bson.D{{}})
+	cursor, err := mongoClient.Database(database).Collection(transactionsCollection).Find(context.TODO(), filter)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -37,11 +40,18 @@ func GetAllTransactions() ([]entity.Transaction, int64, error) {
 
 func GetFilteredTransactions(userID primitive.ObjectID, page int, noOfItemsInPage int, sortBy string,
 	sortOrder string, search string) ([]entity.Transaction, int64, error) {
+	var numericSearch *float64
 
 	filter := bson.M{}
 	filter["userId"] = userID
+
 	if search != "" {
-		filter["$or"] = []bson.M{
+
+		if num, err := strconv.ParseFloat(search, 64); err == nil {
+			numericSearch = &num
+		}
+
+		orConditions := []bson.M{
 			{"description": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
 			{"debitAccount": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
 			{"creditAccount": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
@@ -49,6 +59,12 @@ func GetFilteredTransactions(userID primitive.ObjectID, page int, noOfItemsInPag
 			{"transactionType": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
 			{"subTransactionType": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
 		}
+
+		if numericSearch != nil {
+			orConditions = append(orConditions, bson.M{"amount": *numericSearch})
+		}
+
+		filter["$or"] = orConditions
 	}
 
 	var mongoClient, database = adapters.GetMongoClient()
@@ -105,38 +121,52 @@ func GetTransactionByID(id primitive.ObjectID) (entity.Transaction, error) {
 	return transaction, nil
 }
 
-func GetFilteredDescriptions(userID primitive.ObjectID, page int, noOfItemsInPage int, search string) ([]entity.Transaction, int64, error) {
-
-	filter := bson.M{}
-	filter["userId"] = userID
+func GetFilteredDescriptions(userID primitive.ObjectID, search string) ([]string, error) {
+	filter := bson.M{"userId": userID}
 	if search != "" {
-		filter["$or"] = []bson.M{
-			{"description": bson.M{mongo_enums.REGEX: search, mongo_enums.OPTIONS: "i"}},
+		filter["description"] = bson.M{
+			mongo_enums.REGEX:   search,
+			mongo_enums.OPTIONS: "i",
 		}
 	}
 
 	var mongoClient, database = adapters.GetMongoClient()
-	totalCount, err := mongoClient.Database(database).Collection(mongo_enums.Transactions.String()).CountDocuments(context.TODO(), filter)
-	if err != nil {
-		return nil, 0, err
+
+	// Aggregation pipeline for unique descriptions
+	pipeline := []bson.M{
+		{"$match": filter},
+		{"$group": bson.M{
+			"_id": "$description",
+		}},
+		{"$sort": bson.M{"_id": 1}},
+		{"$limit": 50},
 	}
-	skip := (page - 1) * noOfItemsInPage
-	limit := int64(noOfItemsInPage)
 
-	findOptions := options.Find()
-	findOptions.SetSkip(int64(skip))
-	findOptions.SetLimit(limit)
-
-	cursor, err := mongoClient.Database(database).Collection(transactionsCollection).Find(context.TODO(), filter, findOptions)
+	cursor, err := mongoClient.Database(database).
+		Collection(mongo_enums.Transactions.String()).
+		Aggregate(context.TODO(), pipeline)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 	defer cursor.Close(context.TODO())
 
-	var transactions []entity.Transaction
-	err = cursor.All(context.TODO(), &transactions)
+	var results []bson.M
+	err = cursor.All(context.TODO(), &results)
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
-	return transactions, totalCount, nil
+
+	// Extract unique descriptions
+	descriptions := make([]string, 0, len(results))
+	for _, result := range results {
+		if desc, ok := result["_id"].(string); ok {
+			descriptions = append(descriptions, desc)
+		}
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return descriptions, nil
 }

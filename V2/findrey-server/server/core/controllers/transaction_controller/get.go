@@ -14,7 +14,18 @@ import (
 )
 
 func GetAllTransactions(c *gin.Context) {
-	var transactions, count, err = repository.GetAllTransactions()
+	userID := c.Query("userID")
+	if userID == "" {
+		dto.ErrorResponse(c, http.StatusBadRequest, "User ID not found")
+		return
+	}
+	userObjectID, err := primitive.ObjectIDFromHex(userID)
+	if err != nil {
+		dto.ErrorResponse(c, http.StatusBadRequest, response_enum.INVALID_ID.String())
+		return
+	}
+
+	transactions, count, err := repository.GetAllTransactions(userObjectID)
 	if err != nil {
 		dto.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -42,6 +53,27 @@ func GetAllTransactions(c *gin.Context) {
 	}
 
 	dto.SuccessResponse(c, http.StatusOK, transactionsResponse, count)
+}
+
+func GetTransactionById(c *gin.Context) {
+	transactionId := c.Query("transactionId")
+	if transactionId == "" {
+		dto.ErrorResponse(c, http.StatusBadRequest, "Invalid transaction id")
+		return
+	}
+	transactionObjectId, err := primitive.ObjectIDFromHex(transactionId)
+	if err != nil {
+		dto.ErrorResponse(c, http.StatusBadRequest, response_enum.INVALID_ID.String())
+		return
+	}
+
+	transaction, err := repository.GetTransactionByID(transactionObjectId)
+	if err != nil {
+		dto.ErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	dto.SuccessResponse(c, http.StatusOK, transaction.CreateResponseDTO(), 1)
 }
 
 func GetFilteredTransactions(c *gin.Context) {
@@ -92,11 +124,10 @@ func GetFilteredTransactions(c *gin.Context) {
 }
 
 func GetFilteredDescriptions(c *gin.Context) {
-	noOfItemsInPage, _ := strconv.Atoi(c.DefaultQuery("noOfItemsInPage", "10"))
 
 	userID := c.Query("userID")
 	if userID == "" {
-		dto.ErrorResponse(c, http.StatusBadRequest, "User ID not found")
+		dto.ErrorResponse(c, http.StatusBadRequest, "User not found")
 		return
 	}
 	userObjectID, err := primitive.ObjectIDFromHex(userID)
@@ -106,18 +137,11 @@ func GetFilteredDescriptions(c *gin.Context) {
 	}
 
 	search := c.Query("search")
-	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-	transactions, count, err := repository.GetFilteredDescriptions(userObjectID, page, noOfItemsInPage, search)
+	descriptions, err := repository.GetFilteredDescriptions(userObjectID, search)
 	if err != nil {
 		dto.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	transactionsResponse := make([]string, 0)
-
-	for _, transaction := range transactions {
-		transactionsResponse = append(transactionsResponse, transaction.Description)
-	}
-
-	dto.SuccessResponse(c, http.StatusOK, transactionsResponse, count)
+	c.JSON(http.StatusOK, descriptions)
 }

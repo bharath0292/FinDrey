@@ -7,7 +7,7 @@ app = "findrey-client"
 primary_region = "atl"
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = "next.Dockerfile"
 
 [http_service]
   internal_port = 8080

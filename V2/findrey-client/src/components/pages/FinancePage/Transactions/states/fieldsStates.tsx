@@ -1,5 +1,5 @@
 import type { FieldState } from '@findrey/components/ui/Input';
-import { TransactionType } from '@findrey/types/transaction';
+import { TransactionType } from '@findrey/types';
 
 interface FieldStateType<T> {
   disabled: boolean;
@@ -34,6 +34,10 @@ export type FieldAction =
         field: keyof FieldStatesType;
         value: FieldStatesType[keyof FieldStatesType]['value'];
       };
+    }
+  | {
+      type: 'UPDATE_ALL';
+      payload: { value: TransactionType };
     }
   | {
       type: 'RESET';
@@ -117,42 +121,50 @@ export function fieldStatesReducer(
           value: action.payload.value,
         },
       };
-    // case 'UPDATE_ALL':
-    //   return {
-    //     ...state,
-    //     transactionDate: {
-    //       ...state.transactionDate,
-    //       value: action.payload.value.transactionDate,
-    //     },
-    //     transactionType: {
-    //       ...state.transactionType,
-    //       value: action.payload.value.transactionType,
-    //     },
-    //     subTransactionType: {
-    //       ...state.subTransactionType,
-    //       value: action.payload.value.subTransactionType,
-    //     },
-    //     debitAccount: {
-    //       ...state.debitAccount,
-    //       value: action.payload.value.debitAccount,
-    //     },
-    //     creditAccount: {
-    //       ...state.creditAccount,
-    //       value: action.payload.value.creditAccount,
-    //     },
-    //     category: {
-    //       ...state.category,
-    //       value: action.payload.value.category,
-    //     },
-    //     description: {
-    //       ...state.description,
-    //       value: action.payload.value.description,
-    //     },
-    //     amount: {
-    //       ...state.amount,
-    //       value: action.payload.value.amount,
-    //     },
-    //   };
+    case 'UPDATE_ALL': {
+      const updatedValue = {
+        id: {
+          ...state.transactionDate,
+          value: action.payload.value.id,
+        },
+        transactionDate: {
+          ...state.transactionDate,
+          value: action.payload.value.transactionDate,
+        },
+        transactionType: {
+          ...state.transactionType,
+          value: action.payload.value.transactionType,
+        },
+        subTransactionType: {
+          ...state.subTransactionType,
+          value: action.payload.value.subTransactionType,
+        },
+        debitAccount: {
+          ...state.debitAccount,
+          value: action.payload.value.debitAccount,
+        },
+        creditAccount: {
+          ...state.creditAccount,
+          value: action.payload.value.creditAccount,
+        },
+        category: {
+          ...state.category,
+          value: action.payload.value.category,
+        },
+        description: {
+          ...state.description,
+          value: action.payload.value.description,
+        },
+        amount: {
+          ...state.amount,
+          value: action.payload.value.amount,
+        },
+      };
+      return {
+        ...state,
+        ...updatedValue,
+      };
+    }
     case 'RESET':
       return initialFieldStates;
 

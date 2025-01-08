@@ -7,6 +7,7 @@ import (
 	entity "github.com/bharath0292/findrey-server/server/core/entities/transaction_type_entity"
 	mongo_enums "github.com/bharath0292/findrey-server/server/enums/mongo"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func GetAllTransactionType() ([]entity.TransactionType, int64, error) {
@@ -16,7 +17,12 @@ func GetAllTransactionType() ([]entity.TransactionType, int64, error) {
 		return nil, 0, err
 	}
 
-	cursor, err := mongoClient.Database(database).Collection(mongo_enums.TransactionTypes.String()).Find(context.TODO(), bson.D{{}})
+	sortOptions := bson.D{{Key: "transactionType", Value: 1}}
+
+	findOptions := options.Find()
+	findOptions.SetSort(sortOptions)
+
+	cursor, err := mongoClient.Database(database).Collection(mongo_enums.TransactionTypes.String()).Find(context.TODO(), bson.D{{}}, findOptions)
 	if err != nil {
 		return nil, 0, err
 	}

@@ -1,34 +1,30 @@
-import {
-  AccountType,
-  AccountTypesType,
-  CategoryType,
-  SubTransactionTypesType,
-  SuccessResponseType,
-  TransactionType,
-  TransactionTypesType,
-} from '@findrey/types';
+import { Dispatch } from 'react';
 
-export type ParamsType = {
-  pageNumber: string;
-  searchQuery: string;
-  descriptionSearch: string;
-};
+import { ItemType } from '@findrey/components/ui/Select';
+import { AccountType } from '@findrey/types';
+
+import { FieldAction, FieldStatesType } from '../states/fieldsStates';
 
 export type TransactionsPage = {
   userId: string;
-  pageNumber: number;
-  searchQuery: string;
   isLoading: boolean;
   isError: boolean;
-  handleChangeParams: (key: keyof ParamsType, value: string | number) => void;
-  transactions: SuccessResponseType<TransactionType[]> | undefined;
-  transactionTypes: SuccessResponseType<TransactionTypesType[]> | undefined;
-  subTransactionTypes:
-    | SuccessResponseType<SubTransactionTypesType[]>
-    | undefined;
-  accounts: SuccessResponseType<AccountType[]> | undefined;
-  accountTypes: SuccessResponseType<AccountTypesType[]> | undefined;
-  categories: SuccessResponseType<CategoryType[]> | undefined;
-  descriptions: SuccessResponseType<string[]> | undefined;
+  accounts?: SuccessResponseType<AccountType[]>;
+  transactionTypeItems: ItemType[];
+  subTransactionTypeItems: ItemType[];
+  creditAccountsItems: ItemType[];
+  debitAccountsItems: ItemType[];
+  categoryItems: ItemType[];
+  descriptionItems: ItemType[];
+  fieldStates: FieldStatesType;
+  handleDescriptionSearch: (value: string | number) => void;
   descriptionsIsLoading: boolean | undefined;
+  handleFieldState: Dispatch<FieldAction>;
+  handleTransactionTypeChange: (clearFields?: boolean) => void;
+  handleSubTransactionTypeChange: (clearFields?: boolean) => void;
+  validateForm: () => boolean;
+  updateFieldValue: (
+    field: keyof FieldStatesType | Array<keyof FieldStatesType>,
+    value: FieldStatesType[keyof FieldStatesType]['value'],
+  ) => void;
 };

@@ -1,15 +1,7 @@
-// import EditTransactions from '@findrey/components/pages/FinancePage/Transactions/Edit';
-
-// async function Page() {
-//   return <EditTransactions />;
-// }
-
-// export default Page;
-
-import AddTransactions from '@findrey/components/pages/FinancePage/Transactions/Add';
+import CrudTransactions from '@findrey/components/pages/FinancePage/Transactions/Crud';
 
 async function Page() {
-  return <AddTransactions />;
+  return <CrudTransactions />;
 }
 
 export default Page;

@@ -93,3 +93,11 @@
 .delete {
   background-color: crimson;
 }
+
+.groupTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 10px;
+  text-align: center;
+}

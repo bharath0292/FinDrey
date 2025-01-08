@@ -90,7 +90,7 @@ func GetFilteredCategories(userId primitive.ObjectID, page int, noOfItemsInPage 
 		sortDirection = -1
 	}
 	if sortBy == "" {
-		sortBy = "_id"
+		sortBy = "category"
 	}
 	sortOptions := bson.D{{Key: sortBy, Value: sortDirection}}
 

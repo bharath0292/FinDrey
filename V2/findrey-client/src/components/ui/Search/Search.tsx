@@ -1,5 +1,6 @@
 'use client';
-import { ChangeEvent } from 'react';
+
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { MdSearch } from 'react-icons/md';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
@@ -14,33 +15,51 @@ function Search(props: Readonly<SearchProps>) {
   const { placeholder } = props;
 
   const pathName = usePathname();
-  const { replace } = useRouter();
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useMemo(
+    () => new URLSearchParams(searchParams || undefined),
+    [searchParams],
+  );
+
+  const [value, setValue] = useState<string>('');
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    handleSearch(e);
+  };
 
   const handleSearch = useDebouncedCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      const params = new URLSearchParams(searchParams || undefined);
+      const searchValue = e.target.value.trim();
 
       params.set('page', '1');
-      if (value) {
-        params.set('query', e.target.value);
+
+      if (searchValue) {
+        params.set('query', searchValue);
       } else {
         params.delete('query');
       }
-      replace(`${pathName}?${params}`);
+
+      router.replace(`${pathName}?${params.toString()}`);
     },
     300,
   );
 
+  useEffect(() => {
+    const queryValue = params.get('query');
+    setValue(queryValue ?? '');
+  }, [params]);
+
   return (
     <div className={styles.container}>
-      <MdSearch />
+      <MdSearch className={styles.icon} />
       <input
         type="text"
         placeholder={placeholder}
+        value={value}
+        onChange={handleInputChange}
         className={styles.input}
-        onChange={handleSearch}
       />
     </div>
   );

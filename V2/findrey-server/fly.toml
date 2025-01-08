@@ -7,6 +7,7 @@ app = "findrey-api"
 primary_region = "atl"
 
 [build]
+    dockerfile = "go.Dockerfile"
 
 [http_service]
   internal_port = 8080

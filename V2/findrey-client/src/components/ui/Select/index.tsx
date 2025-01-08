@@ -1,9 +1,9 @@
 export type * from './select';
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useMemo, useRef, useState } from 'react';
 import { IoIosArrowDropdown, IoIosArrowDropup } from 'react-icons/io';
 import { useDebounce } from 'use-debounce';
 
-import { FieldState, GroupedOptions, ItemType, SelectProps } from './select';
+import { GroupedOptions, ItemType, SelectProps } from './select';
 import styles from './select.module.css';
 
 const Row = (
@@ -121,13 +121,15 @@ function Dropdown(props: Readonly<SelectProps>) {
 
   // ** To set the defaultValue */
   useEffect(() => {
-    if (props.defaultValue) {
+    if (props.defaultValue && props.items.length > 0) {
+      if (props.defaultValue === value?.id) {
+        return;
+      }
+
       const option = props.items.find((item) => item.id === props.defaultValue);
       if (option) {
         setValue(option);
       }
-    } else {
-      setValue(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.defaultValue, props.items]);
@@ -158,4 +160,6 @@ function Dropdown(props: Readonly<SelectProps>) {
   );
 }
 
-export default Dropdown;
+const MemoDropdown = memo(Dropdown);
+
+export default MemoDropdown;

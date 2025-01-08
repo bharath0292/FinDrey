@@ -6,6 +6,10 @@ import serverClient from '@findrey/constants/serverClient';
 import type { SuccessResponseType } from '@findrey/types/response';
 import type { TransactionType } from '@findrey/types/transaction';
 
+interface FetchTransactionByIdArgsType {
+  userId: string;
+  transactionId: string;
+}
 interface FetchTransactionsArgsType {
   page: number;
   itemsPerPage: number;
@@ -14,6 +18,32 @@ interface FetchTransactionsArgsType {
   sortBy: string;
   sortOrder: string;
 }
+
+export const fetchTransactionById = async (
+  args: FetchTransactionByIdArgsType,
+): Promise<SuccessResponseType<TransactionType>> => {
+  const { transactionId, userId } = args;
+
+  try {
+    const { data } = await serverClient.get<
+      SuccessResponseType<TransactionType>
+    >('/transactions', {
+      params: {
+        transactionId: transactionId,
+        userID: userId,
+      },
+    });
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw error;
+    } else {
+      console.error('Unexpected error:', error);
+      throw error;
+    }
+  }
+};
 
 export const fetchTransactions = async (
   args: FetchTransactionsArgsType,

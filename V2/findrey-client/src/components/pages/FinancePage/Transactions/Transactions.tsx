@@ -2,10 +2,12 @@
 
 import { MouseEvent } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import Pagination from '@findrey/components/ui/Pagination';
 import Search from '@findrey/components/ui/Search';
 import { ITEMS_PER_PAGE } from '@findrey/constants/gridConfigs';
+import { useTransactionsState } from '@findrey/store';
 import { getValueById } from '@findrey/utils/utilities';
 
 import { useTransactionActions } from './hooks/useTransactionActions.hook';
@@ -16,16 +18,30 @@ function TransactionsPage() {
   const {
     isLoading,
     isError,
-    transactions,
-    transactionTypes,
-    categories,
-    accounts,
+    transactionTypeItems,
+    categoryItems,
+    creditAccountsItems,
+    debitAccountsItems,
+    userId,
   } = useTransactionsPageContext();
+
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams || undefined);
+
+  const pageNumber = Number(params.get('page')) || 1;
+  const searchQuery = params.get('query') ?? '';
+
+  const {
+    data: transactions,
+    isError: isTransactionsError,
+    isLoading: isTransactionsLoading,
+  } = useTransactionsState(userId, pageNumber, searchQuery);
+
   const deleteTransaction = useTransactionActions();
 
   const formatTransactionAccount = (credit: string, debit: string) => {
-    const creditAccount = getValueById(credit, accounts?.data)?.accountName;
-    const debitAccount = getValueById(debit, accounts?.data)?.accountName;
+    const creditAccount = getValueById(credit, creditAccountsItems)?.label;
+    const debitAccount = getValueById(debit, debitAccountsItems)?.label;
     let result = '';
 
     if (creditAccount && debitAccount) {
@@ -47,7 +63,11 @@ function TransactionsPage() {
     await deleteTransaction.mutateAsync(id);
   };
 
-  if (isError) {
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
+
+  if (isError || isTransactionsError) {
     return <div>Error!!!</div>;
   }
 
@@ -75,7 +95,7 @@ function TransactionsPage() {
           </thead>
 
           <tbody>
-            {isLoading || deleteTransaction.isLoading ? (
+            {isTransactionsLoading || deleteTransaction.isLoading ? (
               <tr>
                 <td colSpan={5} style={{ textAlign: 'center' }}>
                   Loading...
@@ -95,8 +115,8 @@ function TransactionsPage() {
                     {
                       getValueById(
                         transaction.transactionType,
-                        transactionTypes?.data,
-                      )?.transactionType
+                        transactionTypeItems,
+                      )?.label
                     }
                   </td>
                   <td>
@@ -106,10 +126,7 @@ function TransactionsPage() {
                     )}
                   </td>
                   <td>
-                    {
-                      getValueById(transaction.category, categories?.data)
-                        ?.category
-                    }
+                    {getValueById(transaction.category, categoryItems)?.label}
                   </td>
 
                   <td>{transaction.description}</td>

@@ -6,7 +6,7 @@ import { fetchDescriptions } from '@findrey/lib/descriptions';
 
 export const useDescriptionsState = (
   userId: string,
-  descriptionSearch: string,
+  descriptionSearch: string | number,
 ) => {
   return useQuery({
     queryKey: ['descriptions', descriptionSearch],

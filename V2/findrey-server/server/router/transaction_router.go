@@ -9,7 +9,8 @@ import (
 func RegisterTransactionsRouter(router *gin.Engine) {
 	group := router.Group("/api/transactions")
 	{
-		group.GET("", controller.GetAllTransactions)
+		group.GET("/all", controller.GetAllTransactions)
+		group.GET("", controller.GetTransactionById)
 		group.GET("/query", controller.GetFilteredTransactions)
 		group.POST("", controller.CreateTransaction)
 		group.PUT("", controller.UpdateTransaction)

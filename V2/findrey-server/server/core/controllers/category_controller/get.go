@@ -56,7 +56,7 @@ func GetFilteredCategories(c *gin.Context) {
 
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	noOfItemsInPage, _ := strconv.Atoi(c.DefaultQuery("noOfItemsInPage", "10"))
-	sortBy := c.DefaultQuery("sortBy", "createdAt")
+	sortBy := c.DefaultQuery("sortBy", "category")
 	sortOrder := c.DefaultQuery("sortOrder", "asc")
 	search := c.Query("search")
 

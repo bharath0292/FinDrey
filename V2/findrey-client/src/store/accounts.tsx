@@ -10,7 +10,7 @@ export const useAccountsState = (
   page: number,
   query: string,
   sortBy: string = '',
-  sortOrder: 'asc' | 'desc' = 'desc',
+  sortOrder: 'asc' | 'desc' = 'asc',
 ) => {
   return useQuery({
     queryKey: ['accounts', query, page],
