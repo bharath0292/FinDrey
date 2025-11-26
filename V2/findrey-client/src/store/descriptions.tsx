@@ -1,23 +1,23 @@
 'use client';
 
-import { useQuery } from 'react-query';
-
 import { fetchDescriptions } from '@findrey/lib/descriptions';
 
-export const useDescriptionsState = (
-  userId: string,
-  descriptionSearch: string | number,
-) => {
-  return useQuery({
-    queryKey: ['descriptions', descriptionSearch],
-    queryFn: () =>
-      fetchDescriptions({
-        userId: userId,
-        descriptionSearch: descriptionSearch,
-      }),
+import { useQuery } from '@tanstack/react-query';
 
-    staleTime: 30,
-    cacheTime: 30,
-    refetchOnWindowFocus: false,
-  });
+export const useDescriptionsState = (
+	userId: string,
+	descriptionSearch: string | number,
+) => {
+	return useQuery({
+		queryKey: ['descriptions', descriptionSearch],
+		queryFn: () =>
+			fetchDescriptions({
+				userId: userId,
+				descriptionSearch: descriptionSearch,
+			}),
+
+		staleTime: 30,
+		gcTime: 30,
+		refetchOnWindowFocus: false,
+	});
 };
