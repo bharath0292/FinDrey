@@ -1,11 +1,5 @@
-export interface Image {
-  data: Uint8Array;
-  contentType: string;
-}
+import type { userSchema } from '@findrey/schemas';
 
-export interface UserType {
-  id: string;
-  username: string;
-  email: string;
-  image: Image;
-}
+import type z from 'zod';
+
+export type UserType = z.infer<typeof userSchema>;

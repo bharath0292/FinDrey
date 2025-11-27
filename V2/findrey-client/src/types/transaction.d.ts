@@ -1,14 +1,5 @@
-export interface TransactionType {
-  id: string;
-  userId: string;
-  bankName: string;
-  accountName: string;
-  transactionDate: string;
-  transactionType: string;
-  subTransactionType: string;
-  category: string;
-  creditAccount: string;
-  debitAccount: string;
-  description: string;
-  amount: number;
-}
+import type { transactionSchema } from '@findrey/schemas';
+
+import type z from 'zod';
+
+export type TransactionType = z.infer<typeof transactionSchema>;

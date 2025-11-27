@@ -1,90 +1,76 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 
-import { DatePickerProps, FieldState } from './datepicker';
+import type { DatePickerProps, FieldState } from './datepicker';
 import styles from './datepicker.module.css';
 
 function Datepicker(props: Readonly<DatePickerProps>) {
-  const [value, setValue] = useState<string>('');
-  const [fieldState, setFieldState] = useState<FieldState>('info');
+	const [value, setValue] = useState<Date>(new Date());
+	const [fieldState, setFieldState] = useState<FieldState>('info');
 
-  const dropdownRef = useRef(null);
-  const inputRef = useRef(null);
+	const dropdownRef = useRef(null);
+	const inputRef = useRef(null);
 
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
+	const getFormattedDateTime = (now: Date) => {
+		const year = now.getFullYear();
+		const month = String(now.getMonth() + 1).padStart(2, '0');
+		const day = String(now.getDate()).padStart(2, '0');
 
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  };
+		const hours = String(now.getHours()).padStart(2, '0');
+		const minutes = String(now.getMinutes()).padStart(2, '0');
+		return `${year}-${month}-${day}T${hours}:${minutes}`;
+	};
 
-  // const getFormattedDateTime = (datetime: string) => {
-  //   const now = new Date(datetime);
-  //   const year = now.getFullYear();
-  //   const month = String(now.getMonth() + 1).padStart(2, '0');
-  //   const day = String(now.getDate()).padStart(2, '0');
+	const handleChange = (event: ChangeEvent) => {
+		const target = event.target as HTMLTextAreaElement;
+		const input = new Date(target.value);
 
-  //   const hours = String(now.getHours()).padStart(2, '0');
-  //   const minutes = String(now.getMinutes()).padStart(2, '0');
-  //   return `${year}-${month}-${day}T${hours}:${minutes}`;
-  // };
+		setValue(input);
 
-  const handleChange = (event: ChangeEvent) => {
-    const target = event.target as HTMLTextAreaElement;
-    const input = target.value;
+		if (props.onChange) {
+			props.onChange(input);
+		}
+	};
 
-    setValue(input);
+	useEffect(() => {
+		if (props.defaultValue) {
+			setValue(props.defaultValue);
+		} else {
+			setValue(new Date());
+			if (props.onChange) {
+				props.onChange(new Date());
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.defaultValue, props.onChange]);
 
-    if (props.onChange) {
-      props.onChange(`${input}:00Z`);
-    }
-  };
+	// ** To set the items */
+	useEffect(() => {
+		if (props.fieldState) {
+			setFieldState(props.fieldState);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.fieldState]);
 
-  useEffect(() => {
-    if (props.defaultValue) {
-      const defaultValue = props.defaultValue.split(':00Z')[0];
-      setValue(defaultValue);
-    } else {
-      const currentDate = getCurrentDateTime();
-      setValue(currentDate);
-      if (props.onChange) {
-        props.onChange(`${currentDate}:00Z`);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.defaultValue]);
-
-  // ** To set the items */
-  useEffect(() => {
-    if (props.fieldState) {
-      setFieldState(props.fieldState);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.fieldState]);
-
-  return (
-    <div
-      className={`${styles.container} ${styles[fieldState]}`}
-      ref={dropdownRef}
-    >
-      <div className="">
-        <input
-          ref={inputRef}
-          type="datetime-local"
-          value={value}
-          placeholder={props.label}
-          disabled={props.disabled}
-          onChange={handleChange}
-          className=""
-        />
-      </div>
-    </div>
-  );
+	return (
+		<div
+			className={`${styles.container} ${styles[fieldState]}`}
+			ref={dropdownRef}
+		>
+			<div className="">
+				<input
+					ref={inputRef}
+					type="datetime-local"
+					value={getFormattedDateTime(value)}
+					placeholder={props.label}
+					disabled={props.disabled}
+					onChange={handleChange}
+					className=""
+				/>
+			</div>
+		</div>
+	);
 }
 
 export default Datepicker;
