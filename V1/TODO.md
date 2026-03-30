@@ -1,7 +1,0 @@
-- [ ] - Category CRUD
-- [ ] - Based on category Investment description should update
-- [ ] - Show category based on user and transactiontype
-- [ ] - If account balance changed by user add it in transaction as "Balance adjusted"
-- [ ] - If account id changed change it in all transaction with respective account
-- [ ] - Add Login Form
-- [ ] - Add navbar to go to pages
