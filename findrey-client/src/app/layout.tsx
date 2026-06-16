@@ -6,7 +6,10 @@ import { ReactQueryProvider, ReduxProvider } from '@findrey/context';
 import styles from '@findrey/styles/layout.module.css';
 
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Geist } from 'next/font/google';
+import { cn } from "@findrey/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
 	title: 'FinDrey',
@@ -20,7 +23,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" className={cn("font-sans", geist.variable)}>
 			<body className={inter.className}>
 				<ReduxProvider>
 						<ReactQueryProvider>
