@@ -1,6 +1,4 @@
-'use client';
-
-import React, {
+import {
 	type ReactNode,
 	useCallback,
 	useEffect,
@@ -8,6 +6,10 @@ import React, {
 	useReducer,
 	useState,
 } from 'react';
+
+import { useRouterState } from '@tanstack/react-router';
+import { useSelector } from 'react-redux';
+import { useDebouncedCallback } from 'use-debounce';
 
 import {
 	type FieldStatesType,
@@ -28,10 +30,6 @@ import {
 } from '@findrey/store';
 import { getIdByValue, getValueById } from '@findrey/utils/utilities';
 
-import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { useDebouncedCallback } from 'use-debounce';
-
 import { TransactionsPageContext } from './PageContext';
 import type { TransactionsPage } from './types';
 
@@ -42,8 +40,8 @@ type TransactionsPageProviderProps = {
 export function TransactionsPageProvider({
 	children,
 }: Readonly<TransactionsPageProviderProps>) {
-	const pathName = usePathname();
-	const action = pathName?.split('/').pop();
+	const pathname = useRouterState({ select: (s) => s.location.pathname });
+	const action = pathname?.split('/').pop();
 
 	const user = useSelector((state: RootState) => state.user);
 
@@ -96,10 +94,10 @@ export function TransactionsPageProvider({
 				) || []
 			);
 		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[subTransactionTypesState.data, fieldStates.transactionType.value],
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: accountTypesState intentionally omitted to avoid extra re-renders
 	const creditAccountsItems = useMemo(
 		() =>
 			accountsState.data?.data.reduce((options: ItemType[], item) => {
@@ -113,10 +111,10 @@ export function TransactionsPageProvider({
 				}
 				return options;
 			}, []) || [],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[accountsState.data, fieldStates.debitAccount.value],
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: accountTypesState intentionally omitted to avoid extra re-renders
 	const debitAccountsItems = useMemo(
 		() =>
 			accountsState.data?.data.reduce((options: ItemType[], item) => {
@@ -130,7 +128,6 @@ export function TransactionsPageProvider({
 				}
 				return options;
 			}, []) || [],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[accountsState.data, fieldStates.creditAccount.value],
 	);
 
@@ -148,7 +145,6 @@ export function TransactionsPageProvider({
 				}
 				return options;
 			}, []) || [],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[categoriesState.data, fieldStates.transactionType.value],
 	);
 
@@ -163,7 +159,6 @@ export function TransactionsPageProvider({
 				}
 				return options;
 			}, []) || [],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[descriptionsState.data],
 	);
 
@@ -188,7 +183,6 @@ export function TransactionsPageProvider({
 		accountsState.isLoading,
 		accountTypesState.isLoading,
 		categoriesState.isLoading,
-		// descriptionsState.isLoading ,
 	].some(Boolean);
 
 	const isError = [
@@ -204,12 +198,12 @@ export function TransactionsPageProvider({
 		value: FieldStatesType[keyof FieldStatesType]['value'],
 	) => {
 		if (Array.isArray(field)) {
-			field.forEach((f) =>
+			field.forEach((f) => {
 				dispatch({
 					type: 'SET_VALUE',
 					payload: { field: f, value: value },
-				}),
-			);
+				});
+			});
 		} else {
 			dispatch({
 				type: 'SET_VALUE',
@@ -266,6 +260,7 @@ export function TransactionsPageProvider({
 		clearAccountFields();
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: stable dispatch refs intentionally omitted
 	const handleTransactionTypeChange = useCallback(
 		(clearFields: boolean = true) => {
 			if (!fieldStates.transactionType.value) {
@@ -289,7 +284,6 @@ export function TransactionsPageProvider({
 				getIdByValue('CASH', 'accountName', accountsState.data?.data)?.id ??
 				null;
 
-			// Define mappings for description and disabled fields
 			const fieldUpdates: Record<
 				string,
 				{ description?: string; disabledFields: Array<keyof FieldStatesType> }
@@ -365,6 +359,7 @@ export function TransactionsPageProvider({
 		],
 	);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: stable dispatch refs intentionally omitted
 	const handleSubTransactionTypeChange = useCallback(
 		(clearFields: boolean = true) => {
 			if (!fieldStates.transactionType.value) return;
@@ -499,14 +494,15 @@ export function TransactionsPageProvider({
 		return validationSuccess;
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional subset to avoid infinite loops
 	useEffect(() => {
 		if (!transactionTypesState.data || !fieldStates.transactionType.value) {
 			return;
 		}
-		console.log('transactionType', fieldStates.transactionType.value);
-
 		handleTransactionTypeChange(action === 'add');
-	}, [fieldStates.transactionType.value, transactionTypesState.data?.data]);
+	}, [fieldStates.transactionType.value, transactionTypesState.data]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: intentional subset to avoid infinite loops
 	useEffect(() => {
 		if (
 			!subTransactionTypesState.data ||
@@ -515,15 +511,13 @@ export function TransactionsPageProvider({
 		) {
 			return;
 		}
-		console.log('subTransactionType', fieldStates.subTransactionType.value);
-
 		handleSubTransactionTypeChange(action === 'add');
 	}, [
 		fieldStates.subTransactionType.value,
-		subTransactionTypesState.data?.data,
+		subTransactionTypesState.data,
 	]);
 
-	// Prepare context value with useMemo for performance optimization
+	// biome-ignore lint/correctness/useExhaustiveDependencies: stable function refs intentionally omitted
 	const contextValue: TransactionsPage = useMemo(
 		() => ({
 			userId: user.id,

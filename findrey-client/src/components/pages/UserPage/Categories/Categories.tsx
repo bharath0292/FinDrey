@@ -1,7 +1,6 @@
-'use client';
-
 import { useMemo } from 'react';
-import Link from 'next/link';
+
+import { Link } from '@tanstack/react-router';
 
 import Pagination from '@findrey/components/ui/Pagination';
 import Search from '@findrey/components/ui/Search';
@@ -18,7 +17,6 @@ function CategoriesPage() {
 
   const userCategories = useMemo(
     () => categories?.data.filter((category) => category.userId === userId),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [categories],
   );
 
@@ -42,8 +40,8 @@ function CategoriesPage() {
       <div>
         <div className={styles.top}>
           <Search placeholder="Search for a categories" />
-          <Link href="/user/categories/add">
-            <button className={styles.addButton}>Add new</button>
+          <Link to="/user/categories/add">
+            <button type="button" className={styles.addButton}>Add new</button>
           </Link>
         </div>
 
@@ -69,8 +67,8 @@ function CategoriesPage() {
                   <td>{getTransactionTypeById(category.transactionType)}</td>
                   <td>
                     <div className={styles.buttons}>
-                      <Link href={`/user/categories/${category.id}`}>
-                        <button className={`${styles.button} ${styles.view}`}>
+                      <Link to="/user/categories/$id" params={{ id: category.id }}>
+                        <button type="button" className={`${styles.button} ${styles.view}`}>
                           View
                         </button>
                       </Link>

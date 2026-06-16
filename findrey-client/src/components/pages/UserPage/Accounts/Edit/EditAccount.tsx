@@ -1,18 +1,16 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 
-import { UpdateAccountsArgsType } from '@findrey/lib/accounts';
+import type { UpdateAccountsArgsType } from '@findrey/lib/accounts';
 import { getValue } from '@findrey/utils/accounts';
+
+import { useRouterState } from '@tanstack/react-router';
 
 import { useAccountActions } from '../hooks/useAccountActions.hook';
 import useAccountsPageContext from '../hooks/useAccounts.hook';
-
 import styles from './editAccount.module.css';
 
 function EditAccount() {
-  const pathName = usePathname();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { accounts, accountTypes, isLoading, isError } =
     useAccountsPageContext();
 
@@ -26,17 +24,14 @@ function EditAccount() {
       balance: 0.0,
     });
   const updateAccount = useAccountActions();
+  const accountId = pathname?.split('/').pop();
 
   useEffect(() => {
-    const selectedAccount = accounts?.data.filter(
-      (account) => account.id === pathName?.split('/').pop(),
-    )[0];
-
+    const selectedAccount = accounts?.data.find((a) => a.id === accountId);
     if (selectedAccount?.id) {
       setModifiedAccount(selectedAccount);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accounts]);
+  }, [accounts, accountId]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -59,7 +54,6 @@ function EditAccount() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     await updateAccount.mutateAsync(modifiedAccount);
   };
 

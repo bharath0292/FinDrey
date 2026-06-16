@@ -67,7 +67,7 @@
 }
 
 .head {
-  @apply bg-transparent
+  @apply bg-transparent;
   position: sticky;
   top: 0;
   z-index: 2;

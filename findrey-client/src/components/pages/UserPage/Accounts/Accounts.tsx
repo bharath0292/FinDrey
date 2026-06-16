@@ -1,7 +1,6 @@
-'use client';
-
 import { Fragment } from 'react';
-import Link from 'next/link';
+
+import { Link } from '@tanstack/react-router';
 
 import Pagination from '@findrey/components/ui/Pagination';
 import Search from '@findrey/components/ui/Search';
@@ -53,7 +52,7 @@ function AccountsPage() {
       <div>
         <div className={styles.top}>
           <Search placeholder="Search for accounts" />
-          <Link href="/user/accounts/add">
+          <Link to="/user/accounts/add">
             <button className={styles.addButton}>Add new</button>
           </Link>
         </div>
@@ -72,23 +71,19 @@ function AccountsPage() {
             <tbody>
               {Object.keys(groupedAccounts).map((accountType) => (
                 <Fragment key={accountType}>
-                  {/* Group Header */}
                   <tr className={styles.groupRow}>
                     <td colSpan={4} className={styles.groupTitle}>
                       {accountType}
                     </td>
                   </tr>
-                  {/* Accounts in the Group */}
                   {groupedAccounts[accountType].map((account) => (
                     <tr key={account.id}>
                       <td>{account.accountName}</td>
                       <td>{account.balance.toFixed(2)}</td>
                       <td>
                         <div className={styles.buttons}>
-                          <Link href={`/user/accounts/${account.id}`}>
-                            <button
-                              className={`${styles.button} ${styles.view}`}
-                            >
+                          <Link to="/user/accounts/$id" params={{ id: account.id }}>
+                            <button type="button" className={`${styles.button} ${styles.view}`}>
                               View
                             </button>
                           </Link>

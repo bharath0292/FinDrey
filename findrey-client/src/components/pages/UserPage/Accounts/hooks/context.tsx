@@ -1,5 +1,3 @@
-'use client';
-
 import { type ReactNode, createContext } from 'react';
 
 import type { RootState } from '@findrey/store';
@@ -9,7 +7,7 @@ import type { AccountType } from '@findrey/types/account';
 import type { AccountTypesType } from '@findrey/types/accountType';
 import type { SuccessResponseType } from '@findrey/types/response';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouterState } from '@tanstack/react-router';
 import { useSelector } from 'react-redux';
 
 type AccountsPageProviderProps = {
@@ -33,8 +31,8 @@ export function AccountsPageProvider(
 ) {
 	const user = useSelector((state: RootState) => state.user);
 
-	const searchParams = useSearchParams();
-	const params = new URLSearchParams(searchParams || undefined);
+	const rawSearch = useRouterState({ select: (s) => s.location.search });
+	const params = new URLSearchParams(rawSearch || undefined);
 
 	const page = Number(params.get('page')) || 1;
 	const query = params.get('query') ?? '';

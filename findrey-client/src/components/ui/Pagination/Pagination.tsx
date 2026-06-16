@@ -1,5 +1,4 @@
-'use client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 
 import styles from './pagination.module.css';
 
@@ -10,24 +9,22 @@ interface PaginationProps {
 
 function Pagination(props: Readonly<PaginationProps>) {
   const { itemsPerPage, count } = props;
-  const pathName = usePathname();
-  const { replace } = useRouter();
-  const searchParams = useSearchParams();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const rawSearch = useRouterState({ select: (s) => s.location.search });
+  const navigate = useNavigate();
 
-  const page = searchParams?.get('page') ?? '1';
+  const params = new URLSearchParams(rawSearch || undefined);
+  const page = params.get('page') ?? '1';
 
-  const params = new URLSearchParams(searchParams || undefined);
+  const hasPrev = itemsPerPage * (parseInt(page, 10) - 1) > 0;
+  const hasNext = itemsPerPage * (parseInt(page, 10) - 1) + itemsPerPage < (count ?? 0);
 
-  const hasPrev = itemsPerPage * (parseInt(page) - 1) > 0;
-  const hasNext =
-    itemsPerPage * (parseInt(page) - 1) + itemsPerPage < (count ?? 0);
-
-  const handleChanagePage = (type: 'prev' | 'next') => {
+  const handleChangePage = (type: 'prev' | 'next') => {
+    const next = new URLSearchParams(params);
     type === 'prev'
-      ? params.set('page', String(parseInt(page) - 1))
-      : params.set('page', String(parseInt(page) + 1));
-
-    replace(`${pathName}?${params}`);
+      ? next.set('page', String(parseInt(page, 10) - 1))
+      : next.set('page', String(parseInt(page, 10) + 1));
+    navigate({ to: pathname, search: Object.fromEntries(next.entries()), replace: true });
   };
 
   return (
@@ -35,14 +32,14 @@ function Pagination(props: Readonly<PaginationProps>) {
       <button
         className={styles.button}
         disabled={!hasPrev}
-        onClick={() => handleChanagePage('prev')}
+        onClick={() => handleChangePage('prev')}
       >
         Previous
       </button>
       <button
         className={styles.button}
         disabled={!hasNext}
-        onClick={() => handleChanagePage('next')}
+        onClick={() => handleChangePage('next')}
       >
         Next
       </button>

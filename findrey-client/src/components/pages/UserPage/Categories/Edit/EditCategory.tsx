@@ -1,18 +1,17 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 
-import { UpdateCategoriesArgsType } from '@findrey/lib/categories';
 import useCategoryPageContext from '@findrey/components/pages/UserPage/Categories/hooks/useCategory.hook';
+import type { UpdateCategoriesArgsType } from '@findrey/lib/categories';
 import { convertToTitleCase } from '@findrey/utils/utilities';
 
-import { useCategoryActions } from '../hooks/useCategoryActions.hook';
+import { useRouterState } from '@tanstack/react-router';
 
+import { useCategoryActions } from '../hooks/useCategoryActions.hook';
 import styles from './editCategory.module.css';
 
 function EditCategory() {
-  const pathName = usePathname();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const categoryId = pathname?.split('/').pop();
   const { categories, transactionTypes, isLoading, isError } =
     useCategoryPageContext();
 
@@ -21,33 +20,21 @@ function EditCategory() {
   const updateCategory = useCategoryActions();
 
   useEffect(() => {
-    const selectedCategory = categories?.data.filter(
-      (category) => category.id === pathName?.split('/').pop(),
-    )[0];
-
+    const selectedCategory = categories?.data.find((c) => c.id === categoryId);
     if (selectedCategory?.id) {
       setModifiedCategory(selectedCategory);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categories]);
+  }, [categories, categoryId]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
-
-    setModifiedCategory((prevAccount) => {
-      const updateCategory = {
-        ...prevAccount,
-        [name]: convertToTitleCase(value),
-      };
-      return updateCategory;
-    });
+    setModifiedCategory((prev) => ({ ...prev, [name]: convertToTitleCase(value) }));
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     await updateCategory.mutateAsync(modifiedCategory);
   };
 
@@ -62,17 +49,17 @@ function EditCategory() {
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label htmlFor="category">Bank Name</label>
+          <label htmlFor="category">Category Name</label>
           <input
             id="category"
             type="text"
-            placeholder="Bank Name"
+            placeholder="Category Name"
             name="category"
             value={modifiedCategory.category}
             onChange={handleInputChange}
             required
           />
-          <label htmlFor="transactionType">Account Type</label>
+          <label htmlFor="transactionType">Transaction Type</label>
           <select
             name="transactionType"
             id="transactionType"

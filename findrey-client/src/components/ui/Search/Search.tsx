@@ -1,8 +1,7 @@
-'use client';
-
 import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { MdSearch } from 'react-icons/md';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
 import styles from './search.module.css';
@@ -14,12 +13,13 @@ interface SearchProps {
 function Search(props: Readonly<SearchProps>) {
   const { placeholder } = props;
 
-  const pathName = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const rawSearch = useRouterState({ select: (s) => s.location.search });
+  const navigate = useNavigate();
+
   const params = useMemo(
-    () => new URLSearchParams(searchParams || undefined),
-    [searchParams],
+    () => new URLSearchParams(rawSearch || undefined),
+    [rawSearch],
   );
 
   const [value, setValue] = useState<string>('');
@@ -32,16 +32,14 @@ function Search(props: Readonly<SearchProps>) {
   const handleSearch = useDebouncedCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const searchValue = e.target.value.trim();
-
-      params.set('page', '1');
-
+      const next = new URLSearchParams(params);
+      next.set('page', '1');
       if (searchValue) {
-        params.set('query', searchValue);
+        next.set('query', searchValue);
       } else {
-        params.delete('query');
+        next.delete('query');
       }
-
-      router.replace(`${pathName}?${params.toString()}`);
+      navigate({ to: pathname, search: Object.fromEntries(next.entries()), replace: true });
     },
     300,
   );

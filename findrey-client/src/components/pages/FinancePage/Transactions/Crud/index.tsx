@@ -1,25 +1,23 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 
 import Datepicker from '@findrey/components/ui/Datepicker';
 import Input from '@findrey/components/ui/Input';
 import Select from '@findrey/components/ui/Select';
 import {
-  AddTransactionsArgsType,
+  type AddTransactionsArgsType,
+  type UpdateTransactionsArgsType,
   fetchTransactionById,
-  UpdateTransactionsArgsType,
 } from '@findrey/lib/transactions';
+
+import { useRouterState } from '@tanstack/react-router';
 
 import { useTransactionActions } from '../hooks/useTransactionActions.hook';
 import useTransactionsPageContext from '../hooks/useTransactions.hook';
-
 import styles from './crudTransactions.module.css';
 
 function CrudTransactions() {
-  const pathName = usePathname();
-  const action = pathName?.split('/').pop();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const action = pathname?.split('/').pop();
 
   const {
     userId,
@@ -51,19 +49,16 @@ function CrudTransactions() {
     event.preventDefault();
 
     const validationSuccess = validateForm();
+    if (!validationSuccess) return;
 
-    if (!validationSuccess) {
-      return;
-    }
-    let transactionValue: UpdateTransactionsArgsType | AddTransactionsArgsType;
     if (
       fieldStates.transactionDate.value &&
       fieldStates.transactionType.value &&
       fieldStates.description.value &&
       fieldStates.amount.value
     ) {
-      transactionValue = {
-        userId: userId,
+      let transactionValue: UpdateTransactionsArgsType | AddTransactionsArgsType = {
+        userId,
         transactionDate: fieldStates.transactionDate.value,
         transactionType: fieldStates.transactionType.value,
         subTransactionType: fieldStates.subTransactionType.value,
@@ -81,15 +76,11 @@ function CrudTransactions() {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: runs once on mount to load existing transaction
   useEffect(() => {
     const fetchTransaction = async (transactionId: string) => {
       const transaction = await fetchTransactionById({ userId, transactionId });
-      dispatch({
-        type: 'UPDATE_ALL',
-        payload: { value: transaction.data },
-      });
-
-      return transaction;
+      dispatch({ type: 'UPDATE_ALL', payload: { value: transaction.data } });
     };
 
     if (!action || action === 'add') {
@@ -100,8 +91,6 @@ function CrudTransactions() {
 
     fetchTransaction(action);
     setIsFetching(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading || isFetching || transactionAction.isLoading) {
@@ -130,9 +119,7 @@ function CrudTransactions() {
           label="Transaction Type"
           fieldState={fieldStates.transactionType.fieldType}
           disabled={fieldStates.transactionType.disabled}
-          onClick={(e) => {
-            updateFieldValue('transactionType', e.id);
-          }}
+          onClick={(e) => updateFieldValue('transactionType', e.id)}
         />
         <Select
           id="subTransactionType"
@@ -141,9 +128,7 @@ function CrudTransactions() {
           defaultValue={fieldStates.subTransactionType.value}
           fieldState={fieldStates.subTransactionType.fieldType}
           disabled={fieldStates.subTransactionType.disabled}
-          onClick={(e) => {
-            updateFieldValue('subTransactionType', e.id);
-          }}
+          onClick={(e) => updateFieldValue('subTransactionType', e.id)}
         />
         <Select
           id="debitAccount"

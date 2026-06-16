@@ -1,6 +1,4 @@
-'use client';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, useRouterState } from '@tanstack/react-router';
 
 import { MenuItemType } from '../types';
 
@@ -11,12 +9,12 @@ interface MenuLinkProps {
 }
 
 function MenuLink(props: Readonly<MenuLinkProps>) {
-  const pathName = usePathname();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <Link
-      href={props.item.path}
+      to={props.item.path}
       className={`${styles.container} ${
-        pathName === props.item.path && styles.active
+        pathname === props.item.path && styles.active
       }`}
     >
       {props.item.icon}

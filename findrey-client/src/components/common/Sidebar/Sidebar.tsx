@@ -1,5 +1,4 @@
 import { MdLogout } from 'react-icons/md';
-import Image from 'next/image';
 
 import noavatar from '@findrey/assets/noavatar.jpg';
 
@@ -11,7 +10,7 @@ function Sidebar() {
   return (
     <div className={styles.container}>
       <div className={styles.user}>
-        <Image
+        <img
           className={styles.userImage}
           src={noavatar}
           alt=""

@@ -1,4 +1,3 @@
-'use client';
 
 import { fetchDescriptions } from '@findrey/lib/descriptions';
 

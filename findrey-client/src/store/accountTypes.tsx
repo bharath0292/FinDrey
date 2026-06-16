@@ -1,4 +1,3 @@
-'use client';
 
 import { fetchAccountTypes } from '@findrey/lib/accountTypes';
 

@@ -1,4 +1,3 @@
-'use client';
 
 import { fetchSubTransactionTypes } from '@findrey/lib/subTransactionTypes';
 

@@ -1,8 +1,6 @@
-'use client';
-
 import { MouseEvent } from 'react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+
+import { Link, useRouterState } from '@tanstack/react-router';
 
 import Pagination from '@findrey/components/ui/Pagination';
 import Search from '@findrey/components/ui/Search';
@@ -25,8 +23,8 @@ function TransactionsPage() {
     userId,
   } = useTransactionsPageContext();
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams || undefined);
+  const rawSearch = useRouterState({ select: (s) => s.location.search });
+  const params = new URLSearchParams(rawSearch || undefined);
 
   const pageNumber = Number(params.get('page')) || 1;
   const searchQuery = params.get('query') ?? '';
@@ -76,8 +74,8 @@ function TransactionsPage() {
       <div>
         <div className={styles.top}>
           <Search placeholder="Search..." />
-          <Link href="/finance/transactions/add">
-            <button className={styles.addButton}>Add new</button>
+          <Link to="/finance/transactions/add">
+            <button type="button" className={styles.addButton}>Add new</button>
           </Link>
         </div>
 
@@ -128,13 +126,12 @@ function TransactionsPage() {
                   <td>
                     {getValueById(transaction.category, categoryItems)?.label}
                   </td>
-
                   <td>{transaction.description}</td>
                   <td>{transaction.amount}</td>
                   <td>
                     <div className={styles.buttons}>
-                      <Link href={`/finance/transactions/${transaction.id}`}>
-                        <button className={`${styles.button} ${styles.view}`}>
+                      <Link to="/finance/transactions/$id" params={{ id: transaction.id }}>
+                        <button type="button" className={`${styles.button} ${styles.view}`}>
                           View
                         </button>
                       </Link>

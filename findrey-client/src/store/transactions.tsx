@@ -1,4 +1,3 @@
-'use client';
 
 import { ITEMS_PER_PAGE } from '@findrey/constants/gridConfigs';
 import { fetchTransactions } from '@findrey/lib/transactions';
