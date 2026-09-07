@@ -1,4 +1,3 @@
-'use client';
 
 import { type ChangeEvent, useEffect, useRef, useState } from 'react';
 

@@ -1,56 +1,40 @@
-'use client';
+import {
+	BudgetProgress,
+	HeroSection,
+	PortfolioChart,
+	QuickActions,
+	RecentActivity,
+	SpendingChart,
+	StatCard,
+	UpcomingBills,
+} from './components';
+import { stats } from './components/data';
 
-// import Grid, { Column } from '@findrey/components/ui/Grid';
-// import { GridDataType } from '@findrey/components/ui/Grid/Grid';
+export default function HomePage() {
+	return (
+		<div className="mx-auto max-w-7xl space-y-5 p-4 md:p-6">
+			<HeroSection />
 
-// interface DataType extends GridDataType {
-//   userId: string;
-//   id: string;
-//   title: string;
-//   completed: string;
-// }
+			<div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+				{stats.map((s) => (
+					<StatCard key={s.label} {...s} />
+				))}
+			</div>
 
-function HomePage() {
-  return <h1>Homepage</h1>;
+			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<SpendingChart />
+				<PortfolioChart />
+			</div>
+
+			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<QuickActions />
+				<RecentActivity />
+			</div>
+
+			<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+				<BudgetProgress />
+				<UpcomingBills />
+			</div>
+		</div>
+	);
 }
-
-// function HomePage() {
-//   const [data, setData] = useState<DataType[]>([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await fetch(
-//           'https://jsonplaceholder.typicode.com/todos',
-//         );
-//         const jsonData = await response.json();
-
-//         setData(jsonData);
-//         setLoading(false); // Set loading to false when data is fetched
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   if (loading) {
-//     return <div>Loading...</div>; // Render a loading state while fetching data
-//   }
-
-//   return (
-//     <div style={{ height: '500px' }}>
-//       <Grid data={data}>
-//         <Column id="id" label="ID" type="text" />
-//         <Column id="userId" label="User ID" type="text" />
-//         <Column id="title" label="Title" type="text" />
-//         <Column id="completed" label="Completed" type="text" />
-//       </Grid>
-//     </div>
-//   );
-// }
-
-export default HomePage;
