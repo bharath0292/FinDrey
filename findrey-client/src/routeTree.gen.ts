@@ -14,21 +14,30 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedUserIndexRouteImport } from './routes/_authenticated/user/index'
 import { Route as AuthenticatedAnalyticsIndexRouteImport } from './routes/_authenticated/analytics/index'
+import { Route as AuthenticatedUserSettingsRouteImport } from './routes/_authenticated/user/settings'
 import { Route as AuthenticatedUserCategoriesRouteImport } from './routes/_authenticated/user/categories'
+import { Route as AuthenticatedUserAccountsV2RouteImport } from './routes/_authenticated/user/accounts-v2'
 import { Route as AuthenticatedUserAccountsRouteImport } from './routes/_authenticated/user/accounts'
+import { Route as AuthenticatedFinanceTransactionsV2RouteImport } from './routes/_authenticated/finance/transactions-v2'
 import { Route as AuthenticatedFinanceTransactionsRouteImport } from './routes/_authenticated/finance/transactions'
 import { Route as AuthenticatedFinanceBillsRouteImport } from './routes/_authenticated/finance/bills'
 import { Route as AuthenticatedAnalyticsLendDebtRouteImport } from './routes/_authenticated/analytics/lend-debt'
 import { Route as AuthenticatedAnalyticsInvestmentRouteImport } from './routes/_authenticated/analytics/investment'
 import { Route as AuthenticatedUserCategoriesIndexRouteImport } from './routes/_authenticated/user/categories/index'
 import { Route as AuthenticatedUserAccountsIndexRouteImport } from './routes/_authenticated/user/accounts/index'
+import { Route as AuthenticatedUserAccountsV2IndexRouteImport } from './routes/_authenticated/user/accounts-v2/index'
 import { Route as AuthenticatedFinanceTransactionsIndexRouteImport } from './routes/_authenticated/finance/transactions/index'
+import { Route as AuthenticatedFinanceTransactionsV2IndexRouteImport } from './routes/_authenticated/finance/transactions-v2/index'
 import { Route as AuthenticatedUserCategoriesAddRouteImport } from './routes/_authenticated/user/categories/add'
 import { Route as AuthenticatedUserCategoriesIdRouteImport } from './routes/_authenticated/user/categories/$id'
 import { Route as AuthenticatedUserAccountsAddRouteImport } from './routes/_authenticated/user/accounts/add'
 import { Route as AuthenticatedUserAccountsIdRouteImport } from './routes/_authenticated/user/accounts/$id'
+import { Route as AuthenticatedUserAccountsV2AddRouteImport } from './routes/_authenticated/user/accounts-v2/add'
+import { Route as AuthenticatedUserAccountsV2IdRouteImport } from './routes/_authenticated/user/accounts-v2/$id'
 import { Route as AuthenticatedFinanceTransactionsAddRouteImport } from './routes/_authenticated/finance/transactions/add'
 import { Route as AuthenticatedFinanceTransactionsIdRouteImport } from './routes/_authenticated/finance/transactions/$id'
+import { Route as AuthenticatedFinanceTransactionsV2AddRouteImport } from './routes/_authenticated/finance/transactions-v2/add'
+import { Route as AuthenticatedFinanceTransactionsV2IdRouteImport } from './routes/_authenticated/finance/transactions-v2/$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -55,16 +64,34 @@ const AuthenticatedAnalyticsIndexRoute =
     path: '/analytics/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedUserSettingsRoute =
+  AuthenticatedUserSettingsRouteImport.update({
+    id: '/user/settings',
+    path: '/user/settings',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedUserCategoriesRoute =
   AuthenticatedUserCategoriesRouteImport.update({
     id: '/user/categories',
     path: '/user/categories',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedUserAccountsV2Route =
+  AuthenticatedUserAccountsV2RouteImport.update({
+    id: '/user/accounts-v2',
+    path: '/user/accounts-v2',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedUserAccountsRoute =
   AuthenticatedUserAccountsRouteImport.update({
     id: '/user/accounts',
     path: '/user/accounts',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFinanceTransactionsV2Route =
+  AuthenticatedFinanceTransactionsV2RouteImport.update({
+    id: '/finance/transactions-v2',
+    path: '/finance/transactions-v2',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedFinanceTransactionsRoute =
@@ -103,11 +130,23 @@ const AuthenticatedUserAccountsIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedUserAccountsRoute,
   } as any)
+const AuthenticatedUserAccountsV2IndexRoute =
+  AuthenticatedUserAccountsV2IndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedUserAccountsV2Route,
+  } as any)
 const AuthenticatedFinanceTransactionsIndexRoute =
   AuthenticatedFinanceTransactionsIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedFinanceTransactionsRoute,
+  } as any)
+const AuthenticatedFinanceTransactionsV2IndexRoute =
+  AuthenticatedFinanceTransactionsV2IndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedFinanceTransactionsV2Route,
   } as any)
 const AuthenticatedUserCategoriesAddRoute =
   AuthenticatedUserCategoriesAddRouteImport.update({
@@ -133,6 +172,18 @@ const AuthenticatedUserAccountsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedUserAccountsRoute,
   } as any)
+const AuthenticatedUserAccountsV2AddRoute =
+  AuthenticatedUserAccountsV2AddRouteImport.update({
+    id: '/add',
+    path: '/add',
+    getParentRoute: () => AuthenticatedUserAccountsV2Route,
+  } as any)
+const AuthenticatedUserAccountsV2IdRoute =
+  AuthenticatedUserAccountsV2IdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedUserAccountsV2Route,
+  } as any)
 const AuthenticatedFinanceTransactionsAddRoute =
   AuthenticatedFinanceTransactionsAddRouteImport.update({
     id: '/add',
@@ -145,6 +196,18 @@ const AuthenticatedFinanceTransactionsIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedFinanceTransactionsRoute,
   } as any)
+const AuthenticatedFinanceTransactionsV2AddRoute =
+  AuthenticatedFinanceTransactionsV2AddRouteImport.update({
+    id: '/add',
+    path: '/add',
+    getParentRoute: () => AuthenticatedFinanceTransactionsV2Route,
+  } as any)
+const AuthenticatedFinanceTransactionsV2IdRoute =
+  AuthenticatedFinanceTransactionsV2IdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedFinanceTransactionsV2Route,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -153,17 +216,26 @@ export interface FileRoutesByFullPath {
   '/analytics/lend-debt': typeof AuthenticatedAnalyticsLendDebtRoute
   '/finance/bills': typeof AuthenticatedFinanceBillsRoute
   '/finance/transactions': typeof AuthenticatedFinanceTransactionsRouteWithChildren
+  '/finance/transactions-v2': typeof AuthenticatedFinanceTransactionsV2RouteWithChildren
   '/user/accounts': typeof AuthenticatedUserAccountsRouteWithChildren
+  '/user/accounts-v2': typeof AuthenticatedUserAccountsV2RouteWithChildren
   '/user/categories': typeof AuthenticatedUserCategoriesRouteWithChildren
+  '/user/settings': typeof AuthenticatedUserSettingsRoute
   '/analytics/': typeof AuthenticatedAnalyticsIndexRoute
   '/user/': typeof AuthenticatedUserIndexRoute
+  '/finance/transactions-v2/$id': typeof AuthenticatedFinanceTransactionsV2IdRoute
+  '/finance/transactions-v2/add': typeof AuthenticatedFinanceTransactionsV2AddRoute
   '/finance/transactions/$id': typeof AuthenticatedFinanceTransactionsIdRoute
   '/finance/transactions/add': typeof AuthenticatedFinanceTransactionsAddRoute
+  '/user/accounts-v2/$id': typeof AuthenticatedUserAccountsV2IdRoute
+  '/user/accounts-v2/add': typeof AuthenticatedUserAccountsV2AddRoute
   '/user/accounts/$id': typeof AuthenticatedUserAccountsIdRoute
   '/user/accounts/add': typeof AuthenticatedUserAccountsAddRoute
   '/user/categories/$id': typeof AuthenticatedUserCategoriesIdRoute
   '/user/categories/add': typeof AuthenticatedUserCategoriesAddRoute
+  '/finance/transactions-v2/': typeof AuthenticatedFinanceTransactionsV2IndexRoute
   '/finance/transactions/': typeof AuthenticatedFinanceTransactionsIndexRoute
+  '/user/accounts-v2/': typeof AuthenticatedUserAccountsV2IndexRoute
   '/user/accounts/': typeof AuthenticatedUserAccountsIndexRoute
   '/user/categories/': typeof AuthenticatedUserCategoriesIndexRoute
 }
@@ -173,15 +245,22 @@ export interface FileRoutesByTo {
   '/analytics/investment': typeof AuthenticatedAnalyticsInvestmentRoute
   '/analytics/lend-debt': typeof AuthenticatedAnalyticsLendDebtRoute
   '/finance/bills': typeof AuthenticatedFinanceBillsRoute
+  '/user/settings': typeof AuthenticatedUserSettingsRoute
   '/analytics': typeof AuthenticatedAnalyticsIndexRoute
   '/user': typeof AuthenticatedUserIndexRoute
+  '/finance/transactions-v2/$id': typeof AuthenticatedFinanceTransactionsV2IdRoute
+  '/finance/transactions-v2/add': typeof AuthenticatedFinanceTransactionsV2AddRoute
   '/finance/transactions/$id': typeof AuthenticatedFinanceTransactionsIdRoute
   '/finance/transactions/add': typeof AuthenticatedFinanceTransactionsAddRoute
+  '/user/accounts-v2/$id': typeof AuthenticatedUserAccountsV2IdRoute
+  '/user/accounts-v2/add': typeof AuthenticatedUserAccountsV2AddRoute
   '/user/accounts/$id': typeof AuthenticatedUserAccountsIdRoute
   '/user/accounts/add': typeof AuthenticatedUserAccountsAddRoute
   '/user/categories/$id': typeof AuthenticatedUserCategoriesIdRoute
   '/user/categories/add': typeof AuthenticatedUserCategoriesAddRoute
+  '/finance/transactions-v2': typeof AuthenticatedFinanceTransactionsV2IndexRoute
   '/finance/transactions': typeof AuthenticatedFinanceTransactionsIndexRoute
+  '/user/accounts-v2': typeof AuthenticatedUserAccountsV2IndexRoute
   '/user/accounts': typeof AuthenticatedUserAccountsIndexRoute
   '/user/categories': typeof AuthenticatedUserCategoriesIndexRoute
 }
@@ -194,17 +273,26 @@ export interface FileRoutesById {
   '/_authenticated/analytics/lend-debt': typeof AuthenticatedAnalyticsLendDebtRoute
   '/_authenticated/finance/bills': typeof AuthenticatedFinanceBillsRoute
   '/_authenticated/finance/transactions': typeof AuthenticatedFinanceTransactionsRouteWithChildren
+  '/_authenticated/finance/transactions-v2': typeof AuthenticatedFinanceTransactionsV2RouteWithChildren
   '/_authenticated/user/accounts': typeof AuthenticatedUserAccountsRouteWithChildren
+  '/_authenticated/user/accounts-v2': typeof AuthenticatedUserAccountsV2RouteWithChildren
   '/_authenticated/user/categories': typeof AuthenticatedUserCategoriesRouteWithChildren
+  '/_authenticated/user/settings': typeof AuthenticatedUserSettingsRoute
   '/_authenticated/analytics/': typeof AuthenticatedAnalyticsIndexRoute
   '/_authenticated/user/': typeof AuthenticatedUserIndexRoute
+  '/_authenticated/finance/transactions-v2/$id': typeof AuthenticatedFinanceTransactionsV2IdRoute
+  '/_authenticated/finance/transactions-v2/add': typeof AuthenticatedFinanceTransactionsV2AddRoute
   '/_authenticated/finance/transactions/$id': typeof AuthenticatedFinanceTransactionsIdRoute
   '/_authenticated/finance/transactions/add': typeof AuthenticatedFinanceTransactionsAddRoute
+  '/_authenticated/user/accounts-v2/$id': typeof AuthenticatedUserAccountsV2IdRoute
+  '/_authenticated/user/accounts-v2/add': typeof AuthenticatedUserAccountsV2AddRoute
   '/_authenticated/user/accounts/$id': typeof AuthenticatedUserAccountsIdRoute
   '/_authenticated/user/accounts/add': typeof AuthenticatedUserAccountsAddRoute
   '/_authenticated/user/categories/$id': typeof AuthenticatedUserCategoriesIdRoute
   '/_authenticated/user/categories/add': typeof AuthenticatedUserCategoriesAddRoute
+  '/_authenticated/finance/transactions-v2/': typeof AuthenticatedFinanceTransactionsV2IndexRoute
   '/_authenticated/finance/transactions/': typeof AuthenticatedFinanceTransactionsIndexRoute
+  '/_authenticated/user/accounts-v2/': typeof AuthenticatedUserAccountsV2IndexRoute
   '/_authenticated/user/accounts/': typeof AuthenticatedUserAccountsIndexRoute
   '/_authenticated/user/categories/': typeof AuthenticatedUserCategoriesIndexRoute
 }
@@ -217,17 +305,26 @@ export interface FileRouteTypes {
     | '/analytics/lend-debt'
     | '/finance/bills'
     | '/finance/transactions'
+    | '/finance/transactions-v2'
     | '/user/accounts'
+    | '/user/accounts-v2'
     | '/user/categories'
+    | '/user/settings'
     | '/analytics/'
     | '/user/'
+    | '/finance/transactions-v2/$id'
+    | '/finance/transactions-v2/add'
     | '/finance/transactions/$id'
     | '/finance/transactions/add'
+    | '/user/accounts-v2/$id'
+    | '/user/accounts-v2/add'
     | '/user/accounts/$id'
     | '/user/accounts/add'
     | '/user/categories/$id'
     | '/user/categories/add'
+    | '/finance/transactions-v2/'
     | '/finance/transactions/'
+    | '/user/accounts-v2/'
     | '/user/accounts/'
     | '/user/categories/'
   fileRoutesByTo: FileRoutesByTo
@@ -237,15 +334,22 @@ export interface FileRouteTypes {
     | '/analytics/investment'
     | '/analytics/lend-debt'
     | '/finance/bills'
+    | '/user/settings'
     | '/analytics'
     | '/user'
+    | '/finance/transactions-v2/$id'
+    | '/finance/transactions-v2/add'
     | '/finance/transactions/$id'
     | '/finance/transactions/add'
+    | '/user/accounts-v2/$id'
+    | '/user/accounts-v2/add'
     | '/user/accounts/$id'
     | '/user/accounts/add'
     | '/user/categories/$id'
     | '/user/categories/add'
+    | '/finance/transactions-v2'
     | '/finance/transactions'
+    | '/user/accounts-v2'
     | '/user/accounts'
     | '/user/categories'
   id:
@@ -257,17 +361,26 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics/lend-debt'
     | '/_authenticated/finance/bills'
     | '/_authenticated/finance/transactions'
+    | '/_authenticated/finance/transactions-v2'
     | '/_authenticated/user/accounts'
+    | '/_authenticated/user/accounts-v2'
     | '/_authenticated/user/categories'
+    | '/_authenticated/user/settings'
     | '/_authenticated/analytics/'
     | '/_authenticated/user/'
+    | '/_authenticated/finance/transactions-v2/$id'
+    | '/_authenticated/finance/transactions-v2/add'
     | '/_authenticated/finance/transactions/$id'
     | '/_authenticated/finance/transactions/add'
+    | '/_authenticated/user/accounts-v2/$id'
+    | '/_authenticated/user/accounts-v2/add'
     | '/_authenticated/user/accounts/$id'
     | '/_authenticated/user/accounts/add'
     | '/_authenticated/user/categories/$id'
     | '/_authenticated/user/categories/add'
+    | '/_authenticated/finance/transactions-v2/'
     | '/_authenticated/finance/transactions/'
+    | '/_authenticated/user/accounts-v2/'
     | '/_authenticated/user/accounts/'
     | '/_authenticated/user/categories/'
   fileRoutesById: FileRoutesById
@@ -314,6 +427,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAnalyticsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/user/settings': {
+      id: '/_authenticated/user/settings'
+      path: '/user/settings'
+      fullPath: '/user/settings'
+      preLoaderRoute: typeof AuthenticatedUserSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/user/categories': {
       id: '/_authenticated/user/categories'
       path: '/user/categories'
@@ -321,11 +441,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserCategoriesRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/user/accounts-v2': {
+      id: '/_authenticated/user/accounts-v2'
+      path: '/user/accounts-v2'
+      fullPath: '/user/accounts-v2'
+      preLoaderRoute: typeof AuthenticatedUserAccountsV2RouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/user/accounts': {
       id: '/_authenticated/user/accounts'
       path: '/user/accounts'
       fullPath: '/user/accounts'
       preLoaderRoute: typeof AuthenticatedUserAccountsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/finance/transactions-v2': {
+      id: '/_authenticated/finance/transactions-v2'
+      path: '/finance/transactions-v2'
+      fullPath: '/finance/transactions-v2'
+      preLoaderRoute: typeof AuthenticatedFinanceTransactionsV2RouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/finance/transactions': {
@@ -370,12 +504,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserAccountsIndexRouteImport
       parentRoute: typeof AuthenticatedUserAccountsRoute
     }
+    '/_authenticated/user/accounts-v2/': {
+      id: '/_authenticated/user/accounts-v2/'
+      path: '/'
+      fullPath: '/user/accounts-v2/'
+      preLoaderRoute: typeof AuthenticatedUserAccountsV2IndexRouteImport
+      parentRoute: typeof AuthenticatedUserAccountsV2Route
+    }
     '/_authenticated/finance/transactions/': {
       id: '/_authenticated/finance/transactions/'
       path: '/'
       fullPath: '/finance/transactions/'
       preLoaderRoute: typeof AuthenticatedFinanceTransactionsIndexRouteImport
       parentRoute: typeof AuthenticatedFinanceTransactionsRoute
+    }
+    '/_authenticated/finance/transactions-v2/': {
+      id: '/_authenticated/finance/transactions-v2/'
+      path: '/'
+      fullPath: '/finance/transactions-v2/'
+      preLoaderRoute: typeof AuthenticatedFinanceTransactionsV2IndexRouteImport
+      parentRoute: typeof AuthenticatedFinanceTransactionsV2Route
     }
     '/_authenticated/user/categories/add': {
       id: '/_authenticated/user/categories/add'
@@ -405,6 +553,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUserAccountsIdRouteImport
       parentRoute: typeof AuthenticatedUserAccountsRoute
     }
+    '/_authenticated/user/accounts-v2/add': {
+      id: '/_authenticated/user/accounts-v2/add'
+      path: '/add'
+      fullPath: '/user/accounts-v2/add'
+      preLoaderRoute: typeof AuthenticatedUserAccountsV2AddRouteImport
+      parentRoute: typeof AuthenticatedUserAccountsV2Route
+    }
+    '/_authenticated/user/accounts-v2/$id': {
+      id: '/_authenticated/user/accounts-v2/$id'
+      path: '/$id'
+      fullPath: '/user/accounts-v2/$id'
+      preLoaderRoute: typeof AuthenticatedUserAccountsV2IdRouteImport
+      parentRoute: typeof AuthenticatedUserAccountsV2Route
+    }
     '/_authenticated/finance/transactions/add': {
       id: '/_authenticated/finance/transactions/add'
       path: '/add'
@@ -418,6 +580,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/finance/transactions/$id'
       preLoaderRoute: typeof AuthenticatedFinanceTransactionsIdRouteImport
       parentRoute: typeof AuthenticatedFinanceTransactionsRoute
+    }
+    '/_authenticated/finance/transactions-v2/add': {
+      id: '/_authenticated/finance/transactions-v2/add'
+      path: '/add'
+      fullPath: '/finance/transactions-v2/add'
+      preLoaderRoute: typeof AuthenticatedFinanceTransactionsV2AddRouteImport
+      parentRoute: typeof AuthenticatedFinanceTransactionsV2Route
+    }
+    '/_authenticated/finance/transactions-v2/$id': {
+      id: '/_authenticated/finance/transactions-v2/$id'
+      path: '/$id'
+      fullPath: '/finance/transactions-v2/$id'
+      preLoaderRoute: typeof AuthenticatedFinanceTransactionsV2IdRouteImport
+      parentRoute: typeof AuthenticatedFinanceTransactionsV2Route
     }
   }
 }
@@ -443,6 +619,27 @@ const AuthenticatedFinanceTransactionsRouteWithChildren =
     AuthenticatedFinanceTransactionsRouteChildren,
   )
 
+interface AuthenticatedFinanceTransactionsV2RouteChildren {
+  AuthenticatedFinanceTransactionsV2IdRoute: typeof AuthenticatedFinanceTransactionsV2IdRoute
+  AuthenticatedFinanceTransactionsV2AddRoute: typeof AuthenticatedFinanceTransactionsV2AddRoute
+  AuthenticatedFinanceTransactionsV2IndexRoute: typeof AuthenticatedFinanceTransactionsV2IndexRoute
+}
+
+const AuthenticatedFinanceTransactionsV2RouteChildren: AuthenticatedFinanceTransactionsV2RouteChildren =
+  {
+    AuthenticatedFinanceTransactionsV2IdRoute:
+      AuthenticatedFinanceTransactionsV2IdRoute,
+    AuthenticatedFinanceTransactionsV2AddRoute:
+      AuthenticatedFinanceTransactionsV2AddRoute,
+    AuthenticatedFinanceTransactionsV2IndexRoute:
+      AuthenticatedFinanceTransactionsV2IndexRoute,
+  }
+
+const AuthenticatedFinanceTransactionsV2RouteWithChildren =
+  AuthenticatedFinanceTransactionsV2Route._addFileChildren(
+    AuthenticatedFinanceTransactionsV2RouteChildren,
+  )
+
 interface AuthenticatedUserAccountsRouteChildren {
   AuthenticatedUserAccountsIdRoute: typeof AuthenticatedUserAccountsIdRoute
   AuthenticatedUserAccountsAddRoute: typeof AuthenticatedUserAccountsAddRoute
@@ -459,6 +656,25 @@ const AuthenticatedUserAccountsRouteChildren: AuthenticatedUserAccountsRouteChil
 const AuthenticatedUserAccountsRouteWithChildren =
   AuthenticatedUserAccountsRoute._addFileChildren(
     AuthenticatedUserAccountsRouteChildren,
+  )
+
+interface AuthenticatedUserAccountsV2RouteChildren {
+  AuthenticatedUserAccountsV2IdRoute: typeof AuthenticatedUserAccountsV2IdRoute
+  AuthenticatedUserAccountsV2AddRoute: typeof AuthenticatedUserAccountsV2AddRoute
+  AuthenticatedUserAccountsV2IndexRoute: typeof AuthenticatedUserAccountsV2IndexRoute
+}
+
+const AuthenticatedUserAccountsV2RouteChildren: AuthenticatedUserAccountsV2RouteChildren =
+  {
+    AuthenticatedUserAccountsV2IdRoute: AuthenticatedUserAccountsV2IdRoute,
+    AuthenticatedUserAccountsV2AddRoute: AuthenticatedUserAccountsV2AddRoute,
+    AuthenticatedUserAccountsV2IndexRoute:
+      AuthenticatedUserAccountsV2IndexRoute,
+  }
+
+const AuthenticatedUserAccountsV2RouteWithChildren =
+  AuthenticatedUserAccountsV2Route._addFileChildren(
+    AuthenticatedUserAccountsV2RouteChildren,
   )
 
 interface AuthenticatedUserCategoriesRouteChildren {
@@ -486,8 +702,11 @@ interface AuthenticatedRouteChildren {
   AuthenticatedAnalyticsLendDebtRoute: typeof AuthenticatedAnalyticsLendDebtRoute
   AuthenticatedFinanceBillsRoute: typeof AuthenticatedFinanceBillsRoute
   AuthenticatedFinanceTransactionsRoute: typeof AuthenticatedFinanceTransactionsRouteWithChildren
+  AuthenticatedFinanceTransactionsV2Route: typeof AuthenticatedFinanceTransactionsV2RouteWithChildren
   AuthenticatedUserAccountsRoute: typeof AuthenticatedUserAccountsRouteWithChildren
+  AuthenticatedUserAccountsV2Route: typeof AuthenticatedUserAccountsV2RouteWithChildren
   AuthenticatedUserCategoriesRoute: typeof AuthenticatedUserCategoriesRouteWithChildren
+  AuthenticatedUserSettingsRoute: typeof AuthenticatedUserSettingsRoute
   AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute
   AuthenticatedUserIndexRoute: typeof AuthenticatedUserIndexRoute
 }
@@ -499,9 +718,14 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFinanceBillsRoute: AuthenticatedFinanceBillsRoute,
   AuthenticatedFinanceTransactionsRoute:
     AuthenticatedFinanceTransactionsRouteWithChildren,
+  AuthenticatedFinanceTransactionsV2Route:
+    AuthenticatedFinanceTransactionsV2RouteWithChildren,
   AuthenticatedUserAccountsRoute: AuthenticatedUserAccountsRouteWithChildren,
+  AuthenticatedUserAccountsV2Route:
+    AuthenticatedUserAccountsV2RouteWithChildren,
   AuthenticatedUserCategoriesRoute:
     AuthenticatedUserCategoriesRouteWithChildren,
+  AuthenticatedUserSettingsRoute: AuthenticatedUserSettingsRoute,
   AuthenticatedAnalyticsIndexRoute: AuthenticatedAnalyticsIndexRoute,
   AuthenticatedUserIndexRoute: AuthenticatedUserIndexRoute,
 }

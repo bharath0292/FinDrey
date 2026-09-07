@@ -1,28 +1,22 @@
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+import { MobileTabBar, Navbar } from '@findrey/components/common/Navbar';
 
-import { Header } from '@findrey/components/common/Header';
-import { Sidebar } from '@findrey/components/common/Sidebar';
-import styles from '@findrey/styles/layout.module.css';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authenticated')({
-	beforeLoad: ({ context }) => {
-		// Auth guard — will be enforced once auth (Sprint 3) is implemented.
-		// Uncomment when Better-Auth session is wired up:
-		// if (!context.user) throw redirect({ to: '/login' });
+	beforeLoad: () => {
+		// Auth guard — enforced in Sprint 3.
 	},
 	component: AuthenticatedLayout,
 });
 
 function AuthenticatedLayout() {
 	return (
-		<div className={styles.container}>
-			<div className={styles.menu}>
-				<Sidebar />
-			</div>
-			<div className={styles.content}>
-				<Header />
+		<div className="relative min-h-screen bg-background">
+			<Navbar />
+			<main className="min-h-screen pt-16 pb-14 md:pb-0">
 				<Outlet />
-			</div>
+			</main>
+			<MobileTabBar />
 		</div>
 	);
 }
