@@ -1,0 +1,17 @@
+export enum PaymentMode {
+  CASH = 'Cash',
+  BANK_TRANSFER = 'Bank Transfer',
+  UPI = 'UPI',
+  DEBIT_CARD = 'Debit Card',
+  CREDIT_CARD = 'Credit Card',
+  NET_BANKING = 'Net Banking',
+  CHEQUE = 'Cheque',
+  WALLET = 'Wallet',
+  CRYPTO = 'Crypto',
+  AUTO_DEBIT = 'Auto Debit',
+  STANDING_INSTRUCTION = 'Standing Instruction',
+  NEFT = 'NEFT',
+  IMPS = 'IMPS',
+  RTGS = 'RTGS',
+  OTHER = 'Other',
+}
