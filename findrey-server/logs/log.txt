@@ -8234,3 +8234,16 @@
 {"level":"info","caller":"logging_middleware.go:18","time":"2025-01-01 11:40PM","message":"[GET] /api/transactions/query?page=1&noOfItemsInPage=50&sortBy=transactionDate&sortOrder=desc&search=&userID=671b5cd66a090a1d922d7987 127.0.0.1:52828 took 156.0496ms\n"}
 {"level":"info","caller":"logging_middleware.go:18","time":"2025-01-01 11:40PM","message":"[GET] /api/accounts/query?page=1&noOfItemsInPage=50&sortBy=&sortOrder=desc&search=&userId=671b5cd66a090a1d922d7987 127.0.0.1:52828 took 98.492ms\n"}
 {"level":"info","caller":"logging_middleware.go:18","time":"2025-01-01 11:40PM","message":"[GET] /api/category/query?page=1&noOfItemsInPage=50&sortBy=&sortOrder=desc&search=&userId=671b5cd66a090a1d922d7987 127.0.0.1:52828 took 100.51ms\n"}
+{"level":"info","caller":"logger.go:59","time":"2026-06-26 03:50PM","message":"Zerolog initialized."}
+{"level":"debug","caller":"mongo.go:36","time":"2026-06-26 03:50PM","message":"Pinged your deployment. You successfully connected to MongoDB!"}
+{"level":"info","caller":"main.go:38","time":"2026-06-26 03:50PM","message":"Init completed"}
+{"level":"info","caller":"logging_middleware.go:18","time":"2026-06-26 03:56PM","message":"[GET] /props 127.0.0.1:56618 took 725ns\n"}
+{"level":"info","caller":"logging_middleware.go:18","time":"2026-06-26 03:56PM","message":"[GET] /models 127.0.0.1:56616 took 1.975µs\n"}
+{"level":"info","caller":"logging_middleware.go:18","time":"2026-06-26 04:30PM","message":"[GET] /models 127.0.0.1:33412 took 67.805µs\n"}
+{"level":"info","caller":"logging_middleware.go:18","time":"2026-06-26 04:30PM","message":"[GET] /props 127.0.0.1:33424 took 67.86µs\n"}
+{"level":"info","caller":"logger.go:59","time":"2026-06-27 03:52PM","message":"Zerolog initialized."}
+{"level":"debug","caller":"mongo.go:36","time":"2026-06-27 03:53PM","message":"Pinged your deployment. You successfully connected to MongoDB!"}
+{"level":"info","caller":"main.go:38","time":"2026-06-27 03:53PM","message":"Init completed"}
+{"level":"info","caller":"logger.go:59","time":"2026-09-07 06:28PM","message":"Zerolog initialized."}
+{"level":"debug","caller":"mongo.go:36","time":"2026-09-07 06:28PM","message":"Pinged your deployment. You successfully connected to MongoDB!"}
+{"level":"info","caller":"main.go:38","time":"2026-09-07 06:28PM","message":"Init completed"}
