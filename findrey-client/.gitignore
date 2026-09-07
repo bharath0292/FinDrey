@@ -37,3 +37,5 @@ next-env.d.ts
 public/ref.html
 **.css.d.ts
 .output
+V3/*
+.tanstack/*

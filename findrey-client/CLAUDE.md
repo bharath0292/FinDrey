@@ -30,3 +30,14 @@ When a task (GitHub Issue) is finished:
 - Commit messages must reference the GitHub Issue number using `(#N)` format
 - One issue = one logical unit of work; do not batch-close multiple issues in one commit unless they are truly atomic
 - After closing an issue, confirm closure with `gh issue view <number>` to verify status
+
+## UI
+
+- **Stack**: Tailwind v4 + shadcn (style: base-nova). No plain CSS modules for new or redesigned components.
+- **Theme**: Aurora Teal — futuristic dark-first. Change only `--primary-color` and `--accent-color` in `globals.css` to retheme the entire app.
+- **Tokens**: Use Tailwind semantic classes (`bg-card`, `text-primary`, `border-border`, etc.) — never hardcode colors.
+- **Icons**: Prefer `lucide-react` for new UI. `react-icons` is kept for existing nav items only.
+- **Utilities**: Always use `cn()` from `@findrey/lib/utils` for conditional classes.
+- **No inline styles**. No new `.module.css` files. Use Tailwind classes exclusively.
+- **Animations**: Reuse keyframes in `globals.css` (`pulse-orb`, `neon-flicker`). Add new ones in `globals.css` only.
+- **Responsive layout**: Desktop → hover-to-expand sidebar (`w-16` → `w-56`). Mobile → hidden sidebar + fixed bottom tab bar.
