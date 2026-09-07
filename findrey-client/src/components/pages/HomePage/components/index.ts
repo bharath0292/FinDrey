@@ -1,0 +1,10 @@
+export { AnimatedCounter } from './AnimatedCounter';
+export { BudgetBar } from './BudgetBar';
+export { HeroSection } from './HeroSection';
+export { StatCard } from './StatCard';
+export { SpendingChart } from './SpendingChart';
+export { PortfolioChart } from './PortfolioChart';
+export { QuickActions } from './QuickActions';
+export { RecentActivity } from './RecentActivity';
+export { BudgetProgress } from './BudgetProgress';
+export { UpcomingBills } from './UpcomingBills';
